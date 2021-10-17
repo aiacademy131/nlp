@@ -56,7 +56,8 @@ if __name__ == "__main__":
         os.makedirs(args.output)
 
     filename = wget.download("https://dumps.wikimedia.org/kowiki/latest/kowiki-latest-pages-meta-current.xml.bz2", args.output)
-    os.system(f"python WikiExtractor.py -o {args.output} --json {filename}")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.system(f"python {dir_path}/WikiExtractor.py -o {args.output} --json {filename}")
 
     # text 여러줄 띄기를 한줄 띄기로 합침
     dataset = []
