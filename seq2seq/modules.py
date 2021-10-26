@@ -84,7 +84,7 @@ def filterPairs(pairs):
 def make_dict(lang1, lang2):
 
     pairs = np.array(list(zip(lang1, lang2)))
-    pairs = [[normalizeString(s) for s in l.split('\t')[:2]] for l in pairs]
+    pairs = [[normalizeString(s) for s in l] for l in pairs]
 
     # 쌍을 뒤집고, Lang 인스턴스 생성
     input_lang = Lang(lang1)
