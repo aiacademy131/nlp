@@ -90,6 +90,17 @@ def make_dict(lang1, lang2):
     input_lang = Lang(lang1)
     output_lang = Lang(lang2)
         
+    print("Read %s sentence pairs" % len(pairs))
+    pairs = filterPairs(pairs)
+    print("Trimmed to %s sentence pairs" % len(pairs))
+    print("Counting words...")
+    for pair in pairs:
+        input_lang.addSentence(pair[0])
+        output_lang.addSentence(pair[1])
+    print("Counted words:")
+    print(input_lang.name, input_lang.n_words)
+    print(output_lang.name, output_lang.n_words)
+
     return input_lang, output_lang, pairs
 
 
