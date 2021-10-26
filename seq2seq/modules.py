@@ -39,11 +39,9 @@ def unicodeToAscii(s):
 
 # 소문자, 다듬기, 그리고 문자가 아닌 문자 제거
 def normalizeString(s):
-    s = unicodeToAscii(s.lower().strip())
     s = re.sub(r"([.!?])", r" \1", s)
-    # hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
-    # s = hangul.sub('', s)
-    # s = re.sub(r"[^a-zA-Zㄱ-ㅣ가-힣.!?]+", r" ", s)
+    s = re.sub(r"[^a-zA-Zㄱ-ㅣ가-힣.!?]+", r" ", s)
+    s = unicodeToAscii(s.lower().strip())
     return s
 
 
@@ -70,21 +68,12 @@ def readLangs(lang1, lang2, reverse=False):
 
 ################################################################################################################################
 
-MAX_LENGTH = 10
+MAX_LENGTH = 20
 
-eng_prefixes = (
-    "i am ", "i m ",
-    "he is", "he s ",
-    "she is", "she s ",
-    "you are", "you re ",
-    "we are", "we re ",
-    "they are", "they re "
-)
 
 def filterPair(p):
     return len(p[0].split(' ')) < MAX_LENGTH and \
-        len(p[1].split(' ')) < MAX_LENGTH and \
-        p[1].startswith(eng_prefixes)
+        len(p[1].split(' ')) < MAX_LENGTH
 
 
 def filterPairs(pairs):
