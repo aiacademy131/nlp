@@ -1,6 +1,7 @@
 import unicodedata
 import re
 import torch
+import numpy as np
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -41,7 +42,7 @@ def unicodeToAscii(s):
 def normalizeString(s):
     s = re.sub(r"([.!?])", r" \1", s)
     s = re.sub(r"[^a-zA-Zㄱ-ㅣ가-힣.!?]+", r" ", s)
-    s = unicodeToAscii(s.lower().strip())
+    s = s.lower().strip()
     return s
 
 
@@ -68,7 +69,7 @@ def readLangs(lang1, lang2, reverse=False):
 
 ################################################################################################################################
 
-MAX_LENGTH = 20
+MAX_LENGTH = 30
 
 
 def filterPair(p):
@@ -78,6 +79,18 @@ def filterPair(p):
 
 def filterPairs(pairs):
     return [pair for pair in pairs if filterPair(pair)]
+
+
+def make_dict(lang1, lang2):
+
+    pairs = np.array(list(zip(lang1, lang2)))
+    pairs = [[normalizeString(s) for s in l.split('\t')[:2]] for l in pairs]
+
+    # 쌍을 뒤집고, Lang 인스턴스 생성
+    input_lang = Lang(lang1)
+    output_lang = Lang(lang2)
+        
+    return input_lang, output_lang, pairs
 
 
 def prepareData(lang1, lang2, reverse=False):
